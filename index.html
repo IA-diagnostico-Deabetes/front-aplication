@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Predicción de Diabetes - Bootstrap</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons para info-circle -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/index.css" />
+
+  <!-- Axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+ 
+</head>
+<body>
+
+<div class="container">
+  <div class="card p-4">
+    <div class="row g-4 align-items-center">
+
+      <!-- Imagen 1/3 -->
+      <div class="col-lg-4 d-none d-lg-block">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXUuEfo8cKUpx-R9PorvrzcVF8HlIjryQDug&s" 
+             alt="Consulta médica" class="img-fluid rounded" />
+      </div>
+
+      <!-- Formulario 2/3 -->
+      <div class="col-lg-8">
+        <h2 class="mb-4 text-primary text-center">Predicción de Diabetes</h2>
+
+        <form id="diabetes-form">
+          <div class="row g-3">
+            <!-- Inputs 3 columnas por fila -->
+            
+            <!-- Edad -->
+            <div class="col-md-4">
+              <label for="age" class="form-label">Edad
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Edad del paciente"></i>
+              </label>
+              <input type="number" id="age" name="Age" class="form-control" min="0" max="120" value="45" required />
+            </div>
+
+            <!-- Embarazos -->
+            <div class="col-md-4">
+              <label for="pregnancies" class="form-label">Embarazos
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Embarazos: Número de embarazos que ha tenido la mujer hasta la fecha"></i>
+              </label>
+              <input type="number" id="pregnancies" name="Pregnancies" class="form-control" min="0" max="20" value="2" required />
+            </div>
+
+            <!-- Glucosa -->
+            <div class="col-md-4">
+              <label for="glucose" class="form-label">Glucosa
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Glucosa: El nivel de glucosa del paciente generalmente es más alto, lo que aumenta las posibilidades de diabetes"></i>
+              </label>
+              <input type="number" id="glucose" name="Glucose" class="form-control" min="0" max="300" value="130" required />
+            </div>
+
+            <!-- Presión Arterial -->
+            <div class="col-md-4">
+              <label for="bloodpressure" class="form-label">Presión Arterial
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Presión arterial: Datos de presión arterial del paciente"></i>
+              </label>
+              <input type="number" id="bloodpressure" name="BloodPressure" class="form-control" min="0" max="200" value="80" required />
+            </div>
+
+            <!-- Grosor de Piel -->
+            <div class="col-md-4">
+              <label for="skinthickness" class="form-label">Grosor de Piel
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Grosor de piel: Grosor de la piel del paciente"></i>
+              </label>
+              <input type="number" id="skinthickness" name="SkinThickness" class="form-control" min="0" max="100" value="25" required />
+            </div>
+
+            <!-- Insulina -->
+            <div class="col-md-4">
+              <label for="insulin" class="form-label">Insulina
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Insulina: Nivel de insulina del paciente"></i>
+              </label>
+              <input type="number" id="insulin" name="Insulin" class="form-control" min="0" max="900" value="100" required />
+            </div>
+
+            <!-- BMI -->
+            <div class="col-md-4">
+              <label for="bmi" class="form-label">IMC (BMI)
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="IMC: Índice de masa corporal. Es un método de medición que clasifica a las personas en diferentes categorías"></i>
+              </label>
+              <input type="number" step="0.1" id="bmi" name="BMI" class="form-control" min="0" max="100" value="28.5" required />
+            </div>
+
+            <!-- Diabetes Pedigree Function -->
+            <div class="col-md-4">
+              <label for="dpf" class="form-label">Función historial familiar
+                <i class="bi bi-info-circle info-icon" 
+                   data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Función de historial familiar de diabetes. Indica la predisposición genética"></i>
+              </label>
+              <input type="number" step="0.01" id="dpf" name="DiabetesPedigreeFunction" class="form-control" min="0" max="2" value="0.45" required />
+            </div>
+
+            <!-- Acanthosis -->
+            <div class="col-md-6 d-flex align-items-center">
+              <div>
+                <label for="acanthosis" class="form-label mb-1">Acanthosis
+                  <i class="bi bi-info-circle info-icon" 
+                     data-bs-toggle="tooltip" data-bs-placement="top" 
+                     title="Afección de la piel que puede indicar resistencia a la insulina, diabetes u obesidad"></i>
+                </label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="acanthosis" name="Acanthosis" />
+                  <label class="form-check-label" for="acanthosis">Sí</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Polydipsia -->
+            <div class="col-md-6 d-flex align-items-center">
+              <div>
+                <label for="polydipsia" class="form-label mb-1">Polidipsia
+                  <i class="bi bi-info-circle info-icon" 
+                     data-bs-toggle="tooltip" data-bs-placement="top" 
+                     title="Sed excesiva que puede indicar diabetes descontrolada"></i>
+                </label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="polydipsia" name="Polydipsia" />
+                  <label class="form-check-label" for="polydipsia">Sí</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-submit mt-4 w-100" id="submit-btn">Predecir</button>
+        </form>
+
+        <div id="loading" class="loader"></div>
+
+        <div id="result" class="result mt-3" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS + Popper -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="assets/js/app.js"></script>
+
+
+</body>
+</html>
